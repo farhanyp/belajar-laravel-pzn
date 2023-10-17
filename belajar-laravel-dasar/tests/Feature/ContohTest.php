@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+// if only test ContohTest in Feature you can use = php artisan test --testsuite=Feature --filter ContohTest
 class ContohTest extends TestCase
 {
     /**
