@@ -6,7 +6,7 @@ class Bar{
 
     // Contoh depedency Injection, yaitu objek yang membutuhkan objek lainnya.
     // Disini kasusnya class Bar membutuhkan Class Foo
-    private Foo $foo;
+    public Foo $foo;
 
     public function __construct(Foo $foo)
     {
