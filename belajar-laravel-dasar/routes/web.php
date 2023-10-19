@@ -17,6 +17,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home',function(){
+    return view('home',[
+        "name" => "Farhan Yudha Pratama"
+    ]);
+});
+
+Route::get('/about',function(){
+    return view('about.about',[
+        "name" => "Farhan Yudha Pratama"
+    ]);
+});
+
+
 Route::get('/yp', function(){
     return "Farhan Yudha Pratama";
 });
