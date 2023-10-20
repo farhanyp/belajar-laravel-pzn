@@ -60,6 +60,8 @@ Route::get('/product-redirect/{id}', function($productId){
     ]);
 });
 
+Route::get('/controller/hello/{id}', [HelloController::class, 'hello']);
+
 Route::get('/yp', function(){
     return "Farhan Yudha Pratama";
 });
