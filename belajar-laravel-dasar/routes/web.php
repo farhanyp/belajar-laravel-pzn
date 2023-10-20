@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\HelloController;
-use App\Http\Controllers\HelloControllertest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,6 +58,8 @@ Route::get('/product-redirect/{id}', function($productId){
         'id' => $productId
     ]);
 });
+
+Route::get('/controller/hello/request', [HelloController::class, 'request']);
 
 Route::get('/controller/hello/{name}', [HelloController::class, 'hello']);
 

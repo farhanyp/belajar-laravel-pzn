@@ -11,7 +11,7 @@ use Illuminate\Support\ServiceProvider;
 class FooBarServiceProvider extends ServiceProvider
 {
 
-    public array $singletons = [
+    public $singletons = [
         HelloService::class => HelloServiceIndonesia::class
     ];
 
@@ -22,7 +22,6 @@ class FooBarServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
 
         // Mendaftarkan Service Object Foo dan Bar
         $this->app->singleton(Foo::class, function($app){
