@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HelloController;
+use App\Http\Controllers\InputController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,6 +63,20 @@ Route::get('/product-redirect/{id}', function($productId){
 Route::get('/controller/hello/request', [HelloController::class, 'request']);
 
 Route::get('/controller/hello/{name}', [HelloController::class, 'hello']);
+
+// Menerima input melalui route parameter
+Route::get('/input/hello', [InputController::class, 'hello']);
+
+// Menerima input melalui body
+Route::post('/input/hello', [InputController::class, 'hello']);
+
+Route::post('/input/hello/first', [InputController::class, 'helloFirst']);
+
+Route::post('/input/hello/input', [InputController::class, 'helloInput']);
+
+Route::post('/input/hello/array', [InputController::class, 'arrayInput']);
+
+Route::post('/input/type', [InputController::class, 'inputType']);
 
 Route::get('/yp', function(){
     return "Farhan Yudha Pratama";
