@@ -3,6 +3,7 @@
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\InputController;
+use App\Http\Controllers\ResponseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,7 +63,6 @@ Route::get('/product-redirect/{id}', function($productId){
 });
 
 Route::get('/controller/hello/request', [HelloController::class, 'request']);
-
 Route::get('/controller/hello/{name}', [HelloController::class, 'hello']);
 
 
@@ -80,8 +80,14 @@ Route::post('/input/filter/merge', [InputController::class, 'filterMerge']);
 
 Route::post('/file/upload', [FileController::class, 'upload']);
 
+Route::get('/response/hello', [ResponseController::class, 'response']);
+Route::get('/response/header', [ResponseController::class, 'header']);
+Route::get('/response/view', [ResponseController::class, 'responseView']);
+Route::get('/response/json', [ResponseController::class, 'responseJson']);
+Route::get('/response/file', [ResponseController::class, 'responseFile']);
+Route::get('/response/download', [ResponseController::class, 'responseDownload']);
+
 Route::get('/yp', function(){
     return "Farhan Yudha Pratama";
 });
-
 Route::redirect('/farhan', '/yp');
