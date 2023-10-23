@@ -42,4 +42,29 @@ class InputController extends Controller
             "birth_date" => $birthDate,
         ]) ;
     }
+
+    public function filterOnly(Request $request){
+        
+        // Hanya mengambil input name.first dan name.last
+        $input = $request->only(["name.first", "name.last"]);
+
+        return json_encode($input) ;
+    }
+
+    public function filterExcept(Request $request){
+        
+        // Hanya mengambil input selain name.first dan name.last
+        $input = $request->except(["name.first", "name.last"]);
+
+        return json_encode($input) ;
+    }
+
+    public function filterMerge(Request $request){
+        
+        // Jika ada input yang sama maka akan ditetapkan dengan yang di sediakan
+        // contoh jika mendapatkan admin maka akan diberikan false
+        $input = $request->merge(["admin"=> false]);
+
+        return json_encode($input) ;
+    }
 }
