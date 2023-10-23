@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CookieController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\InputController;
@@ -86,6 +87,10 @@ Route::get('/response/view', [ResponseController::class, 'responseView']);
 Route::get('/response/json', [ResponseController::class, 'responseJson']);
 Route::get('/response/file', [ResponseController::class, 'responseFile']);
 Route::get('/response/download', [ResponseController::class, 'responseDownload']);
+
+Route::get('/cookie/set', [CookieController::class, 'createCookie']);
+Route::get('/cookie/get', [CookieController::class, 'getCookie']);
+Route::get('/cookie/clear', [CookieController::class, 'clearCookie']);
 
 Route::get('/yp', function(){
     return "Farhan Yudha Pratama";
