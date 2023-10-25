@@ -8,6 +8,7 @@ use App\Http\Controllers\InputController;
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\ResponseController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -132,3 +133,18 @@ Route::get('/yp', function(){
     return "Farhan Yudha Pratama";
 });
 Route::redirect('/farhan', '/yp');
+
+// Url Generation
+Route::get('/url/current', function (){
+    return URL::full();
+});
+
+Route::get('/url/named', function(){
+    return route('redirect-hello', [
+        'name' => 'Yp'
+    ]);
+});
+
+Route::get('/url/action', function(){
+    return action([FormController::class, 'form']);
+});
