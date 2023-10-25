@@ -100,6 +100,14 @@ Route::get('/redirect/name/{name}',[RedirectController::class, 'redirectHello'])
 Route::get('/redirect/action',[RedirectController::class, 'redirectAction']);
 Route::get('/redirect/laravel',[RedirectController::class, 'redirectAway']);
 
+Route::get('/middleware/api',function(){
+    return "OK";
+})->middleware('contoh:Yp, 401');
+
+Route::get('/middleware/group',function(){
+    return "GROUP";
+})->middleware(['yp']);
+
 Route::get('/yp', function(){
     return "Farhan Yudha Pratama";
 });
