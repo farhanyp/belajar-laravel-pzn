@@ -83,16 +83,20 @@ Route::post('/input/filter/merge', [InputController::class, 'filterMerge']);
 
 Route::post('/file/upload', [FileController::class, 'upload']);
 
-Route::get('/response/hello', [ResponseController::class, 'response']);
-Route::get('/response/header', [ResponseController::class, 'header']);
-Route::get('/response/view', [ResponseController::class, 'responseView']);
-Route::get('/response/json', [ResponseController::class, 'responseJson']);
-Route::get('/response/file', [ResponseController::class, 'responseFile']);
-Route::get('/response/download', [ResponseController::class, 'responseDownload']);
+Route::prefix("/response")->group(function (){
+    Route::get('/hello', [ResponseController::class, 'response']);
+    Route::get('/header', [ResponseController::class, 'header']);
+    Route::get('/view', [ResponseController::class, 'responseView']);
+    Route::get('/json', [ResponseController::class, 'responseJson']);
+    Route::get('/file', [ResponseController::class, 'responseFile']);
+    Route::get('/download', [ResponseController::class, 'responseDownload']);
+});
 
-Route::get('/cookie/set', [CookieController::class, 'createCookie']);
-Route::get('/cookie/get', [CookieController::class, 'getCookie']);
-Route::get('/cookie/clear', [CookieController::class, 'clearCookie']);
+Route::controller(CookieController::class)->group(function (){
+    Route::get('/cookie/set', 'createCookie');
+    Route::get('/cookie/get', 'getCookie');
+    Route::get('/cookie/clear', 'clearCookie');
+});
 
 Route::get('/redirect/from',[RedirectController::class, 'redirectFrom']);
 Route::get('/redirect/to',[RedirectController::class, 'redirectTo']);
@@ -103,6 +107,18 @@ Route::get('/redirect/laravel',[RedirectController::class, 'redirectAway']);
 
 Route::get('/form',[FormController::class, 'form']);
 Route::post('/form',[FormController::class, 'submitForm']);
+
+// Menggunakan Group Middleware
+// Route::middleware(['sample:PZN, 401'])->group(function (){
+//     Route::get('/middleware/api', function(){
+//         return "OK";
+//     });
+
+//     Route::get('/middleware/group',function(){
+//         return "GROUP";
+//     });
+
+// });
 
 Route::get('/middleware/api',function(){
     return "OK";
