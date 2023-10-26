@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -49,6 +50,10 @@ class Handler extends ExceptionHandler
 
             // Untuk memberhentikan exceptions, yang hanya dimasukan 1 saja
             return false;
+        });
+
+        $this->renderable(function (ValidationException $exception, Request $request){
+            return response("Bad Request", 400);
         });
     }
 }
