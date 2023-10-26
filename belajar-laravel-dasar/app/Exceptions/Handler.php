@@ -22,7 +22,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
-        //
+        ValidationException::class
     ];
 
     /**
@@ -43,8 +43,12 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        // untuk mereport exception dan mengirimnya kemana saja, bisa telegram dll
         $this->reportable(function (Throwable $e) {
-            //
+            var_dump($e);
+
+            // Untuk memberhentikan exceptions, yang hanya dimasukan 1 saja
+            return false;
         });
     }
 }
