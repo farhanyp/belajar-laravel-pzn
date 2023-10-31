@@ -38,4 +38,26 @@ class HelloTest extends TestCase
         $this->view('if-else',["hobbies" => [1]])->assertSeeText("i have hobby");
         $this->view('if-else',["hobbies" => [5,2,1,3]])->assertSeeText("i have hobbies");
     }
+
+    public function testUnless(){
+        
+        $this->view('unless',["isAdmin" => false])->assertSeeText("You're Not Admin",false);
+
+        $this->view('unless',["isAdmin" => true])->assertDontSeeText("You're Not Admin");
+    }
+
+    public function testIssetEmpty(){
+        
+        $this->view('isset-empty',[])
+             ->assertDontSeeText("Hello",false)
+             ->assertSeeText("I Dont Have Hobbies",false);
+
+        $this->view('isset-empty',["name" => "farhan"])
+             ->assertSeeText("Hello, My Name is farhan",false)
+             ->assertSeeText("I Dont Have Hobbies",false);
+
+        $this->view('isset-empty',["name" => "farhan", "hobbies" => "mancing"])
+             ->assertDontSeeText("I Dont Have Hobbies",false)
+             ->assertSeeText("Hello, My Name is farhan",false);
+    }
 }
