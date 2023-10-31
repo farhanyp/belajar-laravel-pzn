@@ -17,4 +17,18 @@ class HelloTest extends TestCase
         
         $this->get('/world')->assertSeeText("Nested");
     }
+
+    public function testComment(){
+        
+        $this->view('comment',[
+            "name" => "Yp"
+        ])->assertDontSeeText("Farhan");
+    }
+
+    public function testDisabledBlade(){
+        
+        $this->view('disabled-blade',[
+            "name" => "Yp"
+        ])->assertDontSeeText("Yp");
+    }
 }
