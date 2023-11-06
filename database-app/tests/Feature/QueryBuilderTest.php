@@ -265,4 +265,30 @@ class QueryBuilderTest extends TestCase
             Log::info(json_encode($item));
         });
     }
+
+    public function insertManyCategories(){
+
+        for ($i=0; $i < 100 ; $i++) { 
+
+            DB::table("categories")->insert([
+                "id" => "CATEGORY-{$i}",
+                "name" => "Category {$i}",
+                "created_at" => "2020-10-10 10:10:10",
+            ]);
+
+        }
+    }
+
+    public function testChunck(){
+        $this->insertManyCategories();
+
+        DB::table("categories")->orderBy("id")
+            ->chunk(10, function($categories){
+                Log::info("Start CHUNK");
+                $categories->each(function($item){
+                    Log::info(json_encode($item));
+                });
+                Log::info("End CHUNK");
+            });
+    }
 }
