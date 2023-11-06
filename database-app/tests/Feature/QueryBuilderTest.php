@@ -284,11 +284,25 @@ class QueryBuilderTest extends TestCase
 
         DB::table("categories")->orderBy("id")
             ->chunk(10, function($categories){
+                self::assertNotNull($categories);
                 Log::info("Start CHUNK");
                 $categories->each(function($item){
                     Log::info(json_encode($item));
                 });
                 Log::info("End CHUNK");
             });
+    }
+
+    public function testLazyResult(){
+        $this->insertManyCategories();
+
+        $collection = DB::table("categories")->orderBy("id")->lazy(10);
+
+        self::assertNotNull($collection);
+
+        $collection->each(function($item){
+            Log::info(json_encode($item));
+        });
+        
     }
 }
