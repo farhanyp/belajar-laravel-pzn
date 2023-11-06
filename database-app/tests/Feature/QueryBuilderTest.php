@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
+use function Laravel\Prompts\select;
+
 class QueryBuilderTest extends TestCase
 {
     public function setUp(): void{
@@ -196,6 +198,40 @@ class QueryBuilderTest extends TestCase
         $collection = DB::table("categories")->where('name', '=', 'SMARTPHONE')->get();
 
         self::assertCount(0, $collection);
+        $collection->each(function($item){
+            Log::info(json_encode($item));
+        });
+    }
+
+    public function insertTableProducts(){
+
+        $this->insertCategories();
+
+        DB::table("products")->insert([
+            'id' => '1', 
+            'name' => 'iPhone 14 Pro Max',
+            'category_id' => 'SMARTPHONE',
+            'price' => 10000000,
+        ]);
+
+        DB::table("products")->insert([
+            'id' => '2', 
+            'name' => 'Samsung Galaxy S21 Ultra',
+            'category_id' => 'SMARTPHONE',
+            'price' => 10000000,
+        ]);
+    }
+
+    public function testJoin(){
+
+        $this->insertTableProducts();
+
+        $collection = DB::table("products")
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.id', 'products.name', 'categories.name as category_name', 'products.price')
+            ->get();
+
+        self::assertCount(2, $collection);
         $collection->each(function($item){
             Log::info(json_encode($item));
         });
