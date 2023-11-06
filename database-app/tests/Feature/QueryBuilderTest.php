@@ -305,4 +305,19 @@ class QueryBuilderTest extends TestCase
         });
         
     }
+
+    public function testCursor(){
+        $this->insertManyCategories();
+
+        // menggunakan cursor yaite mengambil data secara 1 per 1, hati hati menggunakan cursor jika tidak bakal terkena time out
+        $collection = DB::table("categories")->orderBy("id")->cursor();
+
+        self::assertNotNull($collection);
+
+        $collection->each(function($item){
+            Log::info(json_encode($item));
+        });
+        
+    }
+
 }
