@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\CategorySeeder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -66,29 +67,7 @@ class QueryBuilderTest extends TestCase
     }
 
     public function insertCategories(){
-        DB::table("categories")->insert([
-            "id" => "SMARTPHONE",
-            "name" => "Smartphone",
-            "created_at" => "2020-10-10 10:10:10",
-        ]);
-
-        DB::table("categories")->insert([
-            "id" => "FOOD",
-            "name" => "Food",
-            "created_at" => "2020-10-10 10:10:10",
-        ]);
-
-        DB::table("categories")->insert([
-            "id" => "LAPTOP",
-            "name" => "Laptop",
-            "created_at" => "2020-10-10 10:10:10",
-        ]);
-
-        DB::table("categories")->insert([
-            "id" => "FASHION",
-            "name" => "Fashion",
-            "created_at" => "2020-10-10 10:10:10",
-        ]);
+       $this->seed(CategorySeeder::class);
     }
 
     public function testWhere(){
@@ -451,7 +430,25 @@ class QueryBuilderTest extends TestCase
                 }
             }
         }
+    }
 
+    public function testCursorPagination(){
+        $this->InsertProductFood();
+
+        $cursor = 'id';
+        while(true){
+            $paginate = DB::table("categories")->orderBy("id")->cursorPaginate(perPage:2, cursor: $cursor);
+
+            foreach($paginate->items() as $item){
+                self::assertNotNull($item);
+                Log::info(json_encode($item));
+            }
+
+            $cursor =  $paginate->nextCursor();
+            if($cursor == null){
+                break;
+            }
+        }
     }
 
 }
