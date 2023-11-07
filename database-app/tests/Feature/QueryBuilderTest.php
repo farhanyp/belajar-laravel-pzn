@@ -413,4 +413,45 @@ class QueryBuilderTest extends TestCase
         });
     }
 
+    public function testPagination(){
+        $this->InsertProductFood();
+
+        $paginate = DB::table("categories")->paginate(perPage:2);
+
+        self::assertEquals(1, $paginate->currentPage());
+        self::assertEquals(2, $paginate->perPage());
+        self::assertEquals(2, $paginate->lastPage());
+        self::assertEquals(4, $paginate->total());
+
+        $collection = $paginate->items();
+
+        self::assertCount(2, $collection);
+        foreach($collection as $item){
+            Log::info(json_encode($item));
+        }
+    }
+
+    public function testIterationPagination(){
+        $this->InsertProductFood();
+
+        $page = 1;
+        while(true){
+            $paginate = DB::table("categories")->paginate(perPage:1, page: $page);
+
+            if($paginate->isEmpty()){
+                break;
+            }else{
+                $page++;
+
+                $collection = $paginate->items();
+        
+                self::assertCount(1, $collection);
+                foreach($collection as $item){
+                    Log::info(json_encode($item));
+                }
+            }
+        }
+
+    }
+
 }
