@@ -12,7 +12,7 @@ class Category extends Model
     protected $keyType = 'string';
 
     // incementing digunakan jiga primary key bertipe data integer
-    protected $incrementing = false;
-    protected $timestamps = false;
+    public $incrementing = false;
+    public $timestamps = false;
     
 }
