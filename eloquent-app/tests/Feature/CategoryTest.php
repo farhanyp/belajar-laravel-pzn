@@ -63,12 +63,36 @@ class CategoryTest extends TestCase
         $this->seed(CategorySeeder::class);
 
         $category = Category::find("FOOD");
-        Log::info($category);
 
         $category->name = "Food Update";
         $result = $category->update();
 
         self::assertTrue($result);
+
+    }
+
+    public function testSelect(){
+
+        for($i = 0; $i < 5; $i++){
+            $category = new Category();
+            $category->id = "$i";
+            $category->name = "Category {$i}";
+            $category->save();
+        }
+
+        $categories = Category::whereNull("description")->get();
+        self::assertEquals(5, $categories->count());
+
+        $categories->each(function($category){
+            // melakukan select lebih dari satu data, hasil dari Query Builder adalah Collection dari Model nya
+            // Jadinya kita bisa melakukan update 
+            self::assertNull($category->description);
+
+            $category->description = "Updated";
+            $category->update();
+
+            self::assertEquals("Updated", $category->description);
+        });
 
     }
 }
