@@ -95,4 +95,38 @@ class CategoryTest extends TestCase
         });
 
     }
+
+    public function testUpdateMany(){
+
+        $categories = [];
+        for ($i=1; $i <= 10; $i++) {
+            $categories[] = [
+                "id" => "category-{$i}",
+                "name" => "category {$i}"
+            ];
+        }
+
+        $result = Category::insert($categories);
+        self::assertTrue($result);
+
+        $categories = Category::whereNull("description", )->update([
+            "description" => "Updated"
+        ]);
+
+        $total = Category::where("description", '=', "Updated")->count();
+        self::assertEquals(10, $total);
+
+    }
+
+    public function testDelete(){
+
+        $this->seed(CategorySeeder::class);
+
+        $category = Category::find("FOOD");
+        $result = $category->delete();
+        self::assertTrue($result);
+
+        $total = Category::count();
+        self::assertEquals(0, $total);
+    }
 }
