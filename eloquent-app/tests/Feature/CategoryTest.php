@@ -7,6 +7,7 @@ use Database\Seeders\CategorySeeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -55,5 +56,19 @@ class CategoryTest extends TestCase
         self::assertEquals("FOOD", $category->id);
         self::assertEquals("Food", $category->name);
         self::assertEquals("Food Category", $category->description);
+    }
+
+    public function testUpdate(){
+
+        $this->seed(CategorySeeder::class);
+
+        $category = Category::find("FOOD");
+        Log::info($category);
+
+        $category->name = "Food Update";
+        $result = $category->update();
+
+        self::assertTrue($result);
+
     }
 }
