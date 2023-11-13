@@ -129,4 +129,26 @@ class CategoryTest extends TestCase
         $total = Category::count();
         self::assertEquals(0, $total);
     }
+
+    public function testDeleteMany(){
+
+        $categories = [];
+        for ($i=1; $i <= 10; $i++) {
+            $categories[] = [
+                "id" => "category-{$i}",
+                "name" => "category {$i}"
+            ];
+        }
+
+        $result = Category::insert($categories);
+        self::assertTrue($result);
+        
+        $total = Category::count();
+        self::assertEquals(10, $total);
+
+        Category::whereNull("description")->delete();
+
+        $total = Category::count();
+        self::assertEquals(0, $total);
+    }
 }
