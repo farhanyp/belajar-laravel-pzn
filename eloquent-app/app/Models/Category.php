@@ -14,5 +14,11 @@ class Category extends Model
     // incementing digunakan jiga primary key bertipe data integer
     public $incrementing = false;
     public $timestamps = false;
+
+    protected $fillable = [
+        'id',
+        'name',
+        'description'
+    ];
     
 }
