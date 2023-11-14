@@ -30,4 +30,16 @@ class CommentTest extends TestCase
 
         self::assertNotNull($comment->id);
     }
+
+    public function testDefaultAttributeValues(): void
+    {
+        $comment = new Comment();
+        $comment->email = "farhan@gmail.com";
+        $comment->created_at = new \DateTime();
+        $comment->updated_at = new \DateTime();
+        $comment->save();
+
+        self::assertNotNull($comment->title);
+        self::assertNotNull($comment->comment);
+    }
 }
