@@ -19,25 +19,25 @@ class VourcherTest extends TestCase
         DB::delete("DELETE FROM vouchers");
     }
 
-    // public function testCreateVoucher(): void
-    // {
-    //     $voucher = new Voucher();
-    //     $voucher->name = "Sample Voucher";
-    //     $voucher->voucher_code = "12345789123";
-    //     $voucher->save();
+    public function testCreateVoucher(): void
+    {
+        $voucher = new Voucher();
+        $voucher->name = "Sample Voucher";
+        $voucher->voucher_code = "12345789123";
+        $voucher->save();
 
-    //     self::assertNotNull($voucher->id);
-    // }
+        self::assertNotNull($voucher->id);
+    }
 
-    // public function testCreateVoucherUUID(): void
-    // {
-    //     $voucher = new Voucher();
-    //     $voucher->name = "Sample Voucher";
-    //     $voucher->save();
+    public function testCreateVoucherUUID(): void
+    {
+        $voucher = new Voucher();
+        $voucher->name = "Sample Voucher";
+        $voucher->save();
 
-    //     self::assertNotNull($voucher->id);
-    //     self::assertNotNull($voucher->voucher_code);
-    // }
+        self::assertNotNull($voucher->id);
+        self::assertNotNull($voucher->voucher_code);
+    }
 
     public function testSoftDeletes(): void
     {
@@ -52,5 +52,19 @@ class VourcherTest extends TestCase
         // Mengambil data yang soft delete
         $voucher = Voucher::withTrashed()->where("name" , '=', "Sample Voucher")->first();
         self::assertNotNull($voucher);
+    }
+
+    public function testLocalScope(): void
+    {
+        $voucher = new Voucher();
+        $voucher->name = "Sample Voucher";
+        $voucher->is_active = true;
+        $voucher->save();
+
+        $total = Voucher::query()->active()->count();
+        self::assertEquals(1, $total);
+
+        $total = Voucher::query()->nonActive()->count();
+        self::assertEquals(0, $total);
     }
 }
