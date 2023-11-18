@@ -176,20 +176,21 @@ class CategoryTest extends TestCase
     }
 
     // tes untuk global scope
-    // public function testGlobalScope(): void
-    // {
-    //     $category = new Category();
-    //     $category->id = "FOOD";
-    //     $category->name = "Food";
-    //     $category->description = "Food Category";
-    //     $category->is_active = false;
-    //     $category->save();
+    public function testGlobalScope(): void
+    {
+        $category = new Category();
+        $category->id = "FOOD";
+        $category->name = "Food";
+        $category->description = "Food Category";
+        $category->is_active = false;
+        $category->save();
 
-    //     // $category = Category::query()->find("FOOD");
-    //     // self::assertNotNull($category);
+        $category = Category::query()->find("FOOD");
+        self::assertNotNull($category);
+        Log::info($category);
 
-    //     $category = Category::query()->withoutGlobalScope([IsActiveScope::class])->find("FOOD");
-    //     // self::assertNotNull($category);
-    //     Log::info($category);
-    // }
+        // supaya tidak terkena global scope
+        // $category = Category::query()->withoutGlobalScope([IsActiveScope::class])->find("FOOD");
+        // self::assertNotNull($category);
+    }
 }
