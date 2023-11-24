@@ -13,13 +13,7 @@ use Tests\TestCase;
 
 class CustomerTest extends TestCase
 {
-    public function setUp(): void{
-
-        parent::setUp();
-        DB::delete('DELETE from customers');
-        DB::delete('DELETE from wallets');
-        
-    }
+    
     
     public function testOneToOne(): void
     {
