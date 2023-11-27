@@ -72,7 +72,8 @@ class ProductTest extends TestCase
         self::assertNotNull($cheapestProduct);
         self::assertEquals("1", $cheapestProduct->id);
 
-        // $outOfStockProducts = $category->products()->where('stock', '<=', 0)->get();
-        // self::assertCount(0, $outOfStockProducts);
+        $expensiveProduct = $category->mostExpensiveProduct;
+        self::assertNotNull($expensiveProduct);
+        self::assertEquals("2", $expensiveProduct->id);
     }
 }
