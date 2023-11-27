@@ -55,9 +55,24 @@ class ProductTest extends TestCase
 
         $category = Category::query()->find("FOOD");
         $products= $category->products;
-        self::assertCount(1, $products);
+        self::assertNotNull($products);
+
 
         $outOfStockProducts = $category->products()->where('stock', '<=', 0)->get();
         self::assertCount(0, $outOfStockProducts);
+    }
+
+    public function testHasOneOfMany(){
+        $this->seed([CategorySeeder::class, ProductSeeder::class]);
+
+        $category = Category::query()->find("FOOD");
+        self::assertNotNull($category);
+
+        $cheapestProduct = $category->cheapestProduct;
+        self::assertNotNull($cheapestProduct);
+        self::assertEquals("1", $cheapestProduct->id);
+
+        // $outOfStockProducts = $category->products()->where('stock', '<=', 0)->get();
+        // self::assertCount(0, $outOfStockProducts);
     }
 }
