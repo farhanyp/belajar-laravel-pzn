@@ -3,10 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Product;
 use App\Models\Wallet;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\CommentSeeder;
 use Database\Seeders\ProductSeeder;
+use Database\Seeders\VoucherSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Log;
@@ -75,5 +78,20 @@ class ProductTest extends TestCase
         $expensiveProduct = $category->mostExpensiveProduct;
         self::assertNotNull($expensiveProduct);
         self::assertEquals("2", $expensiveProduct->id);
+    }
+
+    public function testOneToManyPolymorphic(){
+        $this->seed([CategorySeeder::class, ProductSeeder::class, VoucherSeeder::class, CommentSeeder::class]);
+
+        $product = Product::query()->find("1");
+        self::assertNotNull($product);
+
+        $comments = $product->comments;
+        Log::info($comments);
+        foreach($comments as $comment){
+            self::assertEquals(Product::class, $comment->commentable_type);
+            self::assertEquals($product->id, $comment->commentable_id);
+
+        }
     }
 }
