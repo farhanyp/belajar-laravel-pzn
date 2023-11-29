@@ -13,6 +13,8 @@ abstract class TestCase extends BaseTestCase
 
         parent::setUp();
         DB::delete('DELETE from reviews');
+        DB::delete('DELETE from taggables');
+        DB::delete('DELETE from tags');
         DB::delete('DELETE from images');
         DB::delete('DELETE from customers_likes_products');
         DB::delete('DELETE from products');
