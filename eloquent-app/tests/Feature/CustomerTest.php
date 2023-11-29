@@ -151,4 +151,20 @@ class CustomerTest extends TestCase
         self::assertNotNull($image);
         self::assertEquals("photo 1", $image->url);
     }
+
+    public function testEagerUseWith(){
+        $this->seed([CustomerSeeder::class, WalletSeeder::class, ImageSeeder::class]);
+
+        $customers = Customer::query()->with(["wallet", "image"])->find("YP");
+        self::assertNotNull($customers);
+
+    }
+
+    public function testEagerUseModel(){
+        $this->seed([CustomerSeeder::class, WalletSeeder::class, ImageSeeder::class]);
+
+        $customers = Customer::query()->find("YP");
+        self::assertNotNull($customers);
+
+    }
 }
