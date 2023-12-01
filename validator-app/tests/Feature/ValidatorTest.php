@@ -78,4 +78,23 @@ class ValidatorTest extends TestCase
             Log::info($message->toJson(JSON_PRETTY_PRINT));
         }
     }
+
+    public function testValidatorMultiperRules(): void
+    {
+        $data = [
+            "username" => "admin",
+            "password" => "12345",
+        ];
+
+        $rules = [
+            "username" => ["required", "email", "max:100"],
+            "password" => ["required", "min:6", "max:20"]
+        ];
+
+        $validator = Validator::make($data, $rules);
+        self::assertNotNull($validator);
+
+        self::assertTrue($validator->fails());
+        Log::info($validator->errors()->toJson(JSON_PRETTY_PRINT));
+    }
 }
