@@ -204,4 +204,35 @@ class ValidatorTest extends TestCase
         $message = $validator->getMessageBag();
         Log::info($message->toJson(JSON_PRETTY_PRINT));
     }
+
+    public function testValidatorCustomFunctionRule(): void
+    {
+        $data = [
+            "username" => "admin",
+            "password" => "12345678",
+            "admin" => true
+        ];
+
+        $rules = [
+            "username" => ["required", "email", "max:100", function(string $attribute, string $value, \Closure $fail){
+                if(strtoupper($value) != $value){
+                    $fail("The field $attribute must be UPPERCASE");
+                }
+            }],
+            "password" => ["required", "min:6", "max:20"]
+        ];
+
+        $validator = Validator::make($data, $rules);
+        self::assertNotNull($validator);
+
+        try{
+            $valid = $validator->validate();
+            Log::info(json_encode($valid, JSON_PRETTY_PRINT));
+
+        }catch(ValidationException $exception){
+            self::assertNotNull($exception->validator);
+            $message = $exception->validator->errors();
+            Log::info($message->toJson(JSON_PRETTY_PRINT));
+        }
+    }
 }
