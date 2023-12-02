@@ -9,10 +9,13 @@ use Illuminate\Validation\ValidationException;
 
 class FormController extends Controller
 {
-    public function login (Request $request): Response{
-        
-        try {
+    public function form(): Response{
+        return response()->view("form");
+    }
 
+
+    public function login (Request $request): Response{
+        try {
             $request->validate([
                 "username" => "required",
                 "password" => "required",
@@ -22,5 +25,15 @@ class FormController extends Controller
         } catch (ValidationException $exception) {
             return response($exception->errors(), Response::HTTP_BAD_REQUEST);
         }
+    }
+
+
+    public function submitForm (Request $request): Response{
+            $request->validate([
+                "username" => "required",
+                "password" => "required",
+            ]);
+            
+            return response("OK", Response::HTTP_OK);
     }
 }
