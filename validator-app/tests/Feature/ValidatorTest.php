@@ -9,6 +9,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\In;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
@@ -223,16 +225,35 @@ class ValidatorTest extends TestCase
         ];
 
         $validator = Validator::make($data, $rules);
+
         self::assertNotNull($validator);
+        self::assertTrue($validator->fails());
+        self::assertFalse($validator->passes());
 
-        try{
-            $valid = $validator->validate();
-            Log::info(json_encode($valid, JSON_PRETTY_PRINT));
+        $message = $validator->getMessageBag();
+        Log::info($message->toJson(JSON_PRETTY_PRINT));
+    }
 
-        }catch(ValidationException $exception){
-            self::assertNotNull($exception->validator);
-            $message = $exception->validator->errors();
-            Log::info($message->toJson(JSON_PRETTY_PRINT));
-        }
+
+    public function testValidatorRuleClasses(): void
+    {
+        $data = [
+            "username" => "farhan",
+            "password" => "12345678",
+        ];
+
+        $rules = [
+            "username" => ["required", "email", "max:100", new In(["farhan", "yudha"])],
+            "password" => ["required", "max:20", Password::min(6)]
+        ];
+
+        $validator = Validator::make($data, $rules);
+
+        self::assertNotNull($validator);
+        self::assertTrue($validator->fails());
+        self::assertFalse($validator->passes());
+
+        $message = $validator->getMessageBag();
+        Log::info($message->toJson(JSON_PRETTY_PRINT));
     }
 }
