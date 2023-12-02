@@ -256,4 +256,40 @@ class ValidatorTest extends TestCase
         $message = $validator->getMessageBag();
         Log::info($message->toJson(JSON_PRETTY_PRINT));
     }
+
+    public function testNestedArray(): void
+    {
+        $data = [
+            "name" => [
+                "first" => "farhan",
+                "last" => "yudha",
+            ],
+            "address" => [
+                [
+                    "street" => "Jalan. GG",
+                    "city" => "Medan"
+                ],
+                [
+                    "street" => "Jalan. GG",
+                    "city" => "Medan"
+                ],
+            ]
+        ];
+
+        $rules = [
+            "name.first" => ["required", "max:100"],
+            "name.last" => ["max:100"],
+            "address.*.street" => ["max:100"],
+            "address.*.city" => ["max:100"],
+        ];
+
+        $validator = Validator::make($data, $rules);
+
+        self::assertNotNull($validator);
+        self::assertTrue($validator->passes());
+        self::assertFalse($validator->fails());
+
+        $message = $validator->getMessageBag();
+        Log::info($message->toJson(JSON_PRETTY_PRINT));
+    }
 }
