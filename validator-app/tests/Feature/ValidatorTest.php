@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -102,6 +103,61 @@ class ValidatorTest extends TestCase
     {
         $data = [
             "username" => "admin@gmail.com",
+            "password" => "12345678",
+            "admin" => true
+        ];
+
+        $rules = [
+            "username" => ["required", "email", "max:100"],
+            "password" => ["required", "min:6", "max:20"]
+        ];
+
+        $validator = Validator::make($data, $rules);
+        self::assertNotNull($validator);
+
+        try{
+            $valid = $validator->validate();
+            Log::info(json_encode($valid, JSON_PRETTY_PRINT));
+
+        }catch(ValidationException $exception){
+            self::assertNotNull($exception->validator);
+            $message = $exception->validator->errors();
+            Log::info($message->toJson(JSON_PRETTY_PRINT));
+        }
+    }
+
+    public function testValidatorValidationMessageWithEn(): void
+    {
+        $data = [
+            "username" => "admin",
+            "password" => "12345678",
+            "admin" => true
+        ];
+
+        $rules = [
+            "username" => ["required", "email", "max:100"],
+            "password" => ["required", "min:6", "max:20"]
+        ];
+
+        $validator = Validator::make($data, $rules);
+        self::assertNotNull($validator);
+
+        try{
+            $valid = $validator->validate();
+            Log::info(json_encode($valid, JSON_PRETTY_PRINT));
+
+        }catch(ValidationException $exception){
+            self::assertNotNull($exception->validator);
+            $message = $exception->validator->errors();
+            Log::info($message->toJson(JSON_PRETTY_PRINT));
+        }
+    }
+
+    public function testValidatorValidationMessageWithLocalizationId(): void
+    {
+        App::setLocale("id");
+        $data = [
+            "username" => "admin",
             "password" => "12345678",
             "admin" => true
         ];
