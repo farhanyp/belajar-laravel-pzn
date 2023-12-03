@@ -20,6 +20,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/categories', function () {
+    $category = Category::all();
+    return CategoryResource::collection($category);
+});
+
 Route::get('/categories/{id}', function ($id) {
     $category = Category::query()->findOrFail($id);
     return new CategoryResource($category);
