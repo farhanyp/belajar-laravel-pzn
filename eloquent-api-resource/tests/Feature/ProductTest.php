@@ -69,4 +69,13 @@ class ProductTest extends TestCase
 
         self::assertNotNull($response->json("author"));
     }
+
+    public function testProductWithHeader(): void
+    {
+        $this->seed([CategorySeeder::class, ProductSeeder::class]);
+        
+        $this->get("/api/products-paging")
+             ->assertStatus(200)
+             ->assertHeader("X-Powered-By", "Farhan Yudha Pratama");
+    }
 }
