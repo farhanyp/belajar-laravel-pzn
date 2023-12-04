@@ -83,4 +83,27 @@ class CategoryTest extends TestCase
                 'total' => 2,
              ]);
     }
+
+    public function testNestedResource(): void
+    {
+        $this->seed([CategorySeeder::class]);
+
+        $category = Category::all();
+
+        $this->get("/api/categories-nested")
+             ->assertStatus(200)
+             ->assertJson([
+                "data" =>[
+                    [
+                        "id" => $category[0]->id,
+                        "name" => $category[0]->name,
+                    ],
+                    [
+                        "id" => $category[1]->id,
+                        "name" => $category[1]->name,
+                    ],
+                ],
+                'total' => 2,
+             ]);
+    }
 }

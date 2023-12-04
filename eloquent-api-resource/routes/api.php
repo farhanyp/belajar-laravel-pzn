@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryCollectionWithNested;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -34,4 +35,9 @@ Route::get('/categories', function () {
 Route::get('/categories/{id}', function ($id) {
     $category = Category::query()->findOrFail($id);
     return new CategoryResource($category);
+});
+
+Route::get('/categories-nested', function () {
+    $category = Category::all();
+    return new CategoryCollectionWithNested($category);
 });
