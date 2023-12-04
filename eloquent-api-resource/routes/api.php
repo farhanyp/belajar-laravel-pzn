@@ -3,10 +3,12 @@
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryCollectionWithNested;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,4 +49,10 @@ Route::get('/categories-nested', function () {
 Route::get('/products/{id}', function ($id) {
     $category = Product::find($id);
     return new ProductResource($category);
+});
+
+Route::get('/products-paging', function(Request $request){
+    $page = $request->get("page", 1);
+    $products = Product::query()->paginate(perPage:2, page: $page);
+    return new ProductCollection($products);
 });

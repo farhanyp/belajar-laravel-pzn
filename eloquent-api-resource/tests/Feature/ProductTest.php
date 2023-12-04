@@ -8,6 +8,7 @@ use Database\Seeders\CategorySeeder;
 use Database\Seeders\ProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class ProductTest extends TestCase
@@ -35,5 +36,17 @@ class ProductTest extends TestCase
                     "updated_at" => $product->updated_at->toJSON(),
                 ]
              ]);
+    }
+
+    public function testProductPaging(): void
+    {
+        $this->seed([CategorySeeder::class, ProductSeeder::class]);
+
+        $response = $this->get("/api/products-paging")
+                         ->assertStatus(200);
+
+        self::assertNotNull($response->json("links"));
+        self::assertNotNull($response->json("meta"));
+        self::assertNotNull($response->json("data"));
     }
 }
