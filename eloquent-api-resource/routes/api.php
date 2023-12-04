@@ -48,8 +48,9 @@ Route::get('/categories-nested', function () {
 });
 
 Route::get('/products/{id}', function ($id) {
-    $category = Product::find($id);
-    return new ProductResource($category);
+    $product = Product::find($id);
+    $product->load("category");
+    return new ProductResource($product);
 });
 
 Route::get('/products-paging', function(Request $request){
