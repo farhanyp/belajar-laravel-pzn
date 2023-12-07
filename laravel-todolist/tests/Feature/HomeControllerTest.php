@@ -10,7 +10,9 @@ class HomeControllerTest extends TestCase
 {
     public function testMember(): void
     {
-        $this->get('/')->assertRedirect('/todolist');
+        $this->withSession([
+            "user" => "farhan"
+        ])->get('/')->assertRedirect('/todolist');
     }
 
     public function testGuest(): void

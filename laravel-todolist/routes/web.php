@@ -26,8 +26,7 @@ Route::controller(UserController::class)->group(function(){
     Route::post("/logout", 'doLogout')->middleware(OnlyMemberMiddleware::class);
 });
 
-Route::controller(TodolistController::class)
-    ->middleware(OnlyMemberMiddleware::class)->group(function(){
+Route::controller(TodolistController::class)->middleware(OnlyMemberMiddleware::class)->group(function(){
         Route::get('/todolist', 'todolist');
         Route::post('/todolist', 'addTodo');
         Route::post('/todolist/{id}/delete', 'removeTodo');
