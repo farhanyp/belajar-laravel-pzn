@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get("/users/login", [UserController::class, 'login']);
 Route::get("/users/current", [UserController::class, 'current'])
     ->middleware('auth');
+Route::get("/api/users/current", [UserController::class, 'current'])
+    ->middleware(['auth:token']);
 
 Route::get('/', function () {
     return view('welcome');
