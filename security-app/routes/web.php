@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/api/todo", [TodoController::class, 'create']);
+Route::post("/api/todo", [TodoController::class, 'create']);
 
 Route::get("/users/login", [UserController::class, 'login']);
 Route::get("/users/current", [UserController::class, 'current'])
