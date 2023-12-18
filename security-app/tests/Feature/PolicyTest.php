@@ -30,4 +30,17 @@ class PolicyTest extends TestCase
         self::assertTrue(Gate::allows("delete", $todo));
         self::assertTrue(Gate::allows("create", Todo::class));
     }
+
+    public function testAuthorizable(): void
+    {
+        $this->seed([UserSeeder::class, TodoSeeder::class]);
+        $user = User::query()->where('email', 'farhan@gmail.com')->firstOrFail();
+
+        $todo = Todo::query()->first();
+
+        self::assertTrue($user->can("view", $todo));
+        self::assertTrue($user->can("update", $todo));
+        self::assertTrue($user->can("delete", $todo));
+        self::assertTrue($user->can("create", Todo::class));
+    }
 }
